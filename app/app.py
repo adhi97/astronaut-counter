@@ -20,17 +20,20 @@ class Astronauts(Resource):
         #call the model to delete all astronauts
 
 class Astronaut(Resource):
-    def get(self, name):
+    def get(self, astroId):
         print "getting information about 1 Astronaut"
         #call the model to get a astronaut
 
-    def delete(self, name):
-        print "deleting a Astronaut with name: " + repr(name)
+    def delete(self, astroId):
+        print "deleting an Astronaut with ID: " + repr(astroId)
         #call the model to delete a astronaut
 
+    def put(self, astroId):
+        print "updating an Astronaut with ID: " + repr(astroId)
+        #call the model to update the astronaut
 
 api.add_resource(Astronauts, '/astronauts')
-api.add_resource(Astronaut, '/astronauts/<string:student_id>')
+api.add_resource(Astronaut, '/astronauts/<string:astroId>')
 
 if __name__ == '__main__':
     app.run(host=0.0.0.0, port=5000, debug=True)
