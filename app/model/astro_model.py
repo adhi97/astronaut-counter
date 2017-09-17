@@ -7,18 +7,26 @@ class AstroModel:
         self.spacecraft = collection['craft']
 
     @staticmethod
-    def findAstronautById(self):
+    def findAstronautById(self, astroId):
         DAO = AstroDao()
-
         #call the DAO to find findAstronautByName
 
     @staticmethod
     def getAllAstronauts(self):
         DAO = AstroDao()
+        #second get functionality
 
     @staticmethod
-    def createAstronaut(self):
+    def createAstronaut(self, astroInfo):
         DAO = AstroDao()
+        #for post function
 
     @staticmethod
-    def update
+    def updateAstronaut(self, astroId):
+        DAO = AstroDao()
+        #for put function
+
+    @staticmethod
+    def deleteAstronaut(self, astroId):
+        DAO = AstroDao()
+        #for delete function
