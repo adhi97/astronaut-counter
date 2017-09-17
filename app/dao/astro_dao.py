@@ -12,12 +12,14 @@ class AstroDao:
         self.collection = self.db[collectionName]
 
     def getAstroById(self, astroId):
-        return self.collection.find_one({'_id': ObjectId(astroId)})
+        if astroId:
+            return self.collection.find_one({'_id': ObjectId(astroId)})
+        else return None
 
     def getAllAstronauts(self):
         astronauts = []
         for astronaut in self.collection.find():
-            astronauts.append(astronaut)
+            astronauts.append(AstroModel(astronaut).__dict__)
         return astronauts
 
     def deleteAstronautById(self, astroId):
@@ -26,6 +28,9 @@ class AstroDao:
             return None
         else deletedAstro = self.collection.delete_one({"_id": ObjectId(astroId)})
         return deletedAstro
+
+    def deleteAllAstronauts(self):
+        #implement later
 
     def updateAstronaut(self, astroId, astroData):
         astronaut = self.collection.find_one({'_id': ObjectId(astroId)})

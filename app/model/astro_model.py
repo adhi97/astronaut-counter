@@ -7,26 +7,51 @@ class AstroModel:
         self.spacecraft = collection['craft']
 
     @staticmethod
-    def findAstronautById(self, astroId):
+    def findAstronautById(astroId):
         DAO = AstroDao()
-        #call the DAO to find findAstronautByName
+        astronaut = DAO.getAstroById(astroId)
+
+        if astronaut:
+            return AstroModel(astronaut).__dict__
+        else return None
+
 
     @staticmethod
-    def getAllAstronauts(self):
+    def getAllAstronauts():
         DAO = AstroDao()
-        #second get functionality
+        allAstros = DAO.getAllAstronauts()
+        if allAstros:
+            return AstroModel(allAstros).__dict__
+        else return None
 
     @staticmethod
-    def createAstronaut(self, astroInfo):
+    def createAstronaut(astroInfo):
         DAO = AstroDao()
-        #for post function
+        if astroInfo:
+            return DAO.createAstronaut(astroInfo)
+        else return None
 
     @staticmethod
-    def updateAstronaut(self, astroId):
+    def updateAstronaut(astroId, astroInfo):
         DAO = AstroDao()
-        #for put function
+        if astroId and astroInfo:
+            return DAO.updateAstronaut(astroId, astroInfo)
+        else return None
 
     @staticmethod
-    def deleteAstronaut(self, astroId):
+    def deleteAll():
+        #implement later
+
+    @staticmethod
+    def deleteAstronaut(astroId):
         DAO = AstroDao()
-        #for delete function
+        if astroId:
+            return DAO.deleteAstronautById(astroId)
+        else return None
+
+    @staticmethod
+    def postMulipleAstros(astroInfo):
+        DAO = AstroDao()
+        if astroInfo:
+            return DAO.createManyAstronauts(astroInfo)
+        else return None

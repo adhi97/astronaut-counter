@@ -7,30 +7,50 @@ api = Api(app)
 
 class Astronauts(Resource):
     def get(self):
-        print "getting data about number of astronauts in space"
-        return #to be implemented (DAO class) by calling the model
+        print "getting all astros"
+        astros = AstroModel.getAllAstronauts()
+        data = jsonify(astros.__dict__)
+        return data
 
     def post(self):
-        print "posting Astronaut data"
-        parser = reqparse.RequestParser()
-        return #call the model and post data
+        print "posting an astronaut"
+        payload = request.get_json()
+        astro = AstroModel.createAstronaut(payload)
+        data = jsonify(astro.__dict__)
+        return data
 
     def delete(self):
         print "deleting all astronauts"
-        #call the model to delete all astronauts
+        #implement later
 
 class Astronaut(Resource):
     def get(self, astroId):
         print "getting information about 1 Astronaut"
-        #call the model to get a astronaut
+        astronaut = AstroModel.findAstronautById(astroId)
+        if astronaut:
+            return astronaut
+        else return None
 
     def delete(self, astroId):
         print "deleting an Astronaut with ID: " + repr(astroId)
-        #call the model to delete a astronaut
+        deletedAstro = AstroModel.deleteAstronaut(astroId)
+        if deletedAstro:
+            return deletedAstro
+        else return None #possibly replace with a validator
+
+    def post(self):
+        print "posting an astronaut"
+        payload = request.get_json()
+        astro = AstroModel.createAstronaut(payload)
+        data = jsonify(astro.__dict__)
+        return data
 
     def put(self, astroId):
         print "updating an Astronaut with ID: " + repr(astroId)
-        #call the model to update the astronaut
+        payload = request.get_json()
+        astro = AstroModel.updateAstronaut(astroId, payload)
+        data = jsonify(astro.__dict__)
+        return data
 
 api.add_resource(Astronauts, '/astronauts')
 api.add_resource(Astronaut, '/astronauts/<string:astroId>')
