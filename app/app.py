@@ -8,32 +8,50 @@ api = Api(app)
 class Astronauts(Resource):
     def get(self):
         print "getting all astros"
-        astros = AstroModel.getAllAstronauts()
+        try:
+            astros = AstroModel.getAllAstronauts()
+        except Exception:
+            #do something: return
         data = jsonify(astros.__dict__)
         return data
 
     def post(self):
         print "posting an astronaut"
         payload = request.get_json()
-        astro = AstroModel.createAstronaut(payload)
+
+        try:
+            astro = AstroModel.createAstronaut(payload)
+        except Exception:
+            return #return an error
+
         data = jsonify(astro.__dict__)
         return data
 
     def delete(self):
         print "deleting all astronauts"
-        #implement later
+        #implement deletion of the entire database
 
 class Astronaut(Resource):
     def get(self, astroId):
         print "getting information about 1 Astronaut"
-        astronaut = AstroModel.findAstronautById(astroId)
-        if astronaut:
+
+        try:
+            astronaut = AstroModel.findAstronautById(astroId)
+        except Exception:
+            #return an error
+
+        if astronaut: #might be redundant
             return astronaut
         else return None
 
     def delete(self, astroId):
         print "deleting an Astronaut with ID: " + repr(astroId)
-        deletedAstro = AstroModel.deleteAstronaut(astroId)
+
+        try:
+            deletedAstro = AstroModel.deleteAstronaut(astroId)
+        except Exception:
+            # return error
+
         if deletedAstro:
             return deletedAstro
         else return None #possibly replace with a validator
@@ -41,14 +59,24 @@ class Astronaut(Resource):
     def post(self):
         print "posting an astronaut"
         payload = request.get_json()
-        astro = AstroModel.createAstronaut(payload)
+
+        try:
+            astro = AstroModel.createAstronaut(payload)
+        except Exception:
+            # return error
+
         data = jsonify(astro.__dict__)
         return data
 
     def put(self, astroId):
         print "updating an Astronaut with ID: " + repr(astroId)
         payload = request.get_json()
-        astro = AstroModel.updateAstronaut(astroId, payload)
+
+        try:
+            astro = AstroModel.updateAstronaut(astroId, payload)
+        except Exception:
+            #return
+
         data = jsonify(astro.__dict__)
         return data
 
