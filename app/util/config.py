@@ -1,3 +1,3 @@
 db_name = 'astronaut'
-db_host = mongo
+db_host = 'localhost'
 host_ip = 'localhost'

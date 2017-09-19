@@ -13,33 +13,33 @@ class AstroModel:
 
         if astronaut:
             return AstroModel(astronaut).__dict__
-        else return None
-
+        else: return None
 
     @staticmethod
     def getAllAstronauts():
         DAO = AstroDao()
-        allAstros = DAO.getAllAstronauts()
-        if allAstros:
-            return AstroModel(allAstros).__dict__
-        else return None
+        allAstros = DAO.getAstronauts()
+        astronauts = []
+        for astronaut in allAstros.find():
+            astronauts.append(astronaut)
+        return repr(astronauts)
 
     @staticmethod
     def createAstronaut(astroInfo):
         DAO = AstroDao()
         if astroInfo:
             return DAO.createAstronaut(astroInfo)
-        else return None
+        else: return None
 
     @staticmethod
     def updateAstronaut(astroId, astroInfo):
         DAO = AstroDao()
         if astroId and astroInfo:
             return DAO.updateAstronaut(astroId, astroInfo)
-        else return None
+        else: return None
 
-    @staticmethod
-    def deleteAll():
+#    @staticmethod
+#    def deleteAll():
         #implement later
 
     @staticmethod
@@ -47,11 +47,11 @@ class AstroModel:
         DAO = AstroDao()
         if astroId:
             return DAO.deleteAstronautById(astroId)
-        else return None
+        else: return None
 
     @staticmethod
     def postMulipleAstros(astroInfo):
         DAO = AstroDao()
         if astroInfo:
             return DAO.createManyAstronauts(astroInfo)
-        else return None
+        else: return None
