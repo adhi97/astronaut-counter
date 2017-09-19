@@ -36,6 +36,7 @@ class AstroDao:
 
     def updateAstronaut(self, astroId, astroData):
         try:
+            updatedAstro = self.collection.update_one({"_id": ObjectId(astroId)}, {"$set": astroData}, upsert = False)
             astronaut = self.collection.find_one({'_id': ObjectId(astroId)})
         except Exception as e:
             raise
@@ -43,8 +44,7 @@ class AstroDao:
         if not astronaut:
             return None
         else:
-            updatedAstro = self.collection.update_one({"_id": ObjectId(astroId)}, {"$set": astroData}, upsert = False)
-            return updatedAstro
+            return astronaut
 
     def createAstronaut(self, astroData):
         try:
@@ -53,7 +53,7 @@ class AstroDao:
             raise
 
         if postId is not None:
-            return postId
+            return self.collection.find_one({"_id": postId.inserted_id})
         else:
             return None
 
