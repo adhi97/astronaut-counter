@@ -7,7 +7,7 @@ api = Api(app)
 
 class Astronauts(Resource):
     def get(self):
-        #print ("getting all astros")
+        print ("getting all astros")
 
         try:
             astros = AstroModel.getAllAstronauts()
@@ -17,7 +17,6 @@ class Astronauts(Resource):
         return astros
 
     def post(self):
-    #    print(request)
         payload = request.get_json()
         print ("posting an astronaut with ", payload)
         try:
@@ -25,7 +24,6 @@ class Astronauts(Resource):
         except Exception:
             return #return an error
 
-    #    data = jsonify(astro.__dict__)
         return astro
 
     def delete(self):
