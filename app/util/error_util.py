@@ -62,3 +62,44 @@ class ErrorUtilBuilder:
 		resp.status_code = 404
 
 		return resp
+
+    @classmethod
+    def forbidden(cls, msg='', errors=None):
+        cls.__handle_traceback__()
+
+        message = {'status': 403, 'message': 'Forbidden: ' + msg, 'errors': errors if errors else []}
+
+        resp = jsonify(message)
+        resp.status_code = 403
+
+        return resp
+
+    @classmethod
+    def conflict(cls, msg='', errors=None):
+        cls.__handle_traceback__()
+
+        message = {
+            'status': 409,
+            'message': 'Conflict: {}'.format(msg),
+            'errors': errors if errors else [],
+        }
+
+        resp = jsonify(message)
+        resp.status_code = 409
+
+        return resp
+
+    @classmethod
+    def internal_error(cls, msg='', errors=None):
+        cls.__handle_traceback__()
+
+        message = {
+            'status': 500,
+            'message': 'Internal Error: {}'.format(msg),
+            'errors': errors if errors else [],
+        }
+
+        resp = jsonify(message)
+        resp.status_code = 500
+
+        return resp
