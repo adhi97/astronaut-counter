@@ -14,11 +14,7 @@ class ErrorUtil:
 	def builder(cls):
 		return ErrorUtilBuilder()
 
-class ErrorUtilBuilder:
-	def __init__(self):
-		self.errors = []
-
-	@classmethod
+    @classmethod
     def bad_request(cls, msg='', errors=None):
         cls.__handle_traceback__()
 
@@ -56,12 +52,12 @@ class ErrorUtilBuilder:
             'status': 404,
             'message': 'Not Found: {}'.format(msg),
             'errors': errors if errors else [],
-		}
+        }
 
-		resp = jsonify(message)
-		resp.status_code = 404
+        resp = jsonify(message)
+        resp.status_code = 404
 
-		return resp
+        return resp
 
     @classmethod
     def forbidden(cls, msg='', errors=None):
@@ -103,3 +99,28 @@ class ErrorUtilBuilder:
         resp.status_code = 500
 
         return resp
+
+class ErrorUtilBuilder:
+	def __init__(self):
+		self.errors = []
+
+    def append(self, _field, _message, _type):
+        self.errors.append({'field': _field, 'message': _message, 'type': _type})
+
+    def append_voluptuous(self, errors):
+        self.errors.extend({
+            "field": ".".join(list(map(str, error.path))),
+            "message": error.error_message,
+            "type": 'invalid',
+        } for error in errors)
+
+    def construct(self, msg='', error_func=ErrorUtil.bad_request):
+        try:
+            function = getattr(ErrorUtil, error_func.__name__)
+        except Exception:
+            raise AttributeError('method name {} is not in ErrorUtil'.format(error_func.__name__))
+
+        if not callable(function) or any(x in error_func.__name__ for x in ('__', 'builder')):
+            raise TypeError("Invalid error function passed to construct")
+
+        return error_func(msg, self.errors)
