@@ -124,3 +124,10 @@ class ErrorUtilBuilder:
             raise TypeError("Invalid error function passed to construct")
 
         return error_func(msg, self.errors)
+
+     def append_errors(self, errors):
+        self.errors.extend({
+            "field": ".".join(list(map(str, error.path))),
+            "message": error.error_message,
+            "type": 'invalid',
+        } for error in errors)
